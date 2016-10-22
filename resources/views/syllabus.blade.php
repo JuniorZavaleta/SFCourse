@@ -25,14 +25,18 @@
         margin: 0px;
     }
     .unidad-selected p {
+        display: inline-block;
         background-color:  #d6dac6;
         color: #000;
+        width: 70%;
     }
     .column {
         border-right: #fcf solid 2px;
     }
     .btn {
+        height: 40px;
         border-radius: 0;
+        margin-top: -2px;
     }
 </style>
 
@@ -63,6 +67,14 @@
                         @click="select_unidad(unidad)"
                     >
                         <p>@{{ unidad.name }}</p>
+                        <a type="button"
+                           class="btn btn-danger"
+                           v-show="unidad_selected == unidad"
+                           title="Eliminar"
+                           @click="delete_unidad(unidad)"
+                        >
+                          <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -166,15 +178,28 @@
                 var new_id = ++this.last_unidad_id
                 this.unidades.push({
                     id: new_id,
-                    name: 'Unidad ' + new_id
+                    name: 'Unidad ' + (this.unidades.length + 1)
                 })
             },
+            delete_unidad: function(unidad) {
+                //Delete
+                for (var i = 0; i < this.unidades.length; i++) {
+                    if (this.unidades[i].id == unidad.id) {
+                        this.unidades.splice(i, 1)
+                        break
+                    }
+                }
+
+                //Rename
+                for (var i = 0; i < this.unidades.length; i++)
+                    this.unidades[i].name = 'Unidad ' + (i+1)
+
+                this.unidad_selected = {}
+            }
         },
 
         ready: function()
         {
-            this.unidades = ['Unidad 1', 'Unidad 2', 'Unidad 3']
-
             this.unidades = [
                 {
                     id: 1,
@@ -189,7 +214,8 @@
                     ],
                 },
             ]
-            this.last_unidad_id += 2
+
+            this.last_unidad_id += this.unidades.length
 
             var semanas = [
                 {

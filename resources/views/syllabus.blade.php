@@ -62,6 +62,9 @@
     .btn-danger {
         height: 40px;
     }
+    .btn-danger > .glyphicon {
+        top: 3px;
+    }
     h1,h2,h3,h4,h5,h6 { cursor: default; }
 </style>
 
@@ -127,6 +130,14 @@
                          @click="select_semana(semana)"
                     >
                         <p>@{{ semana.name }}</p>
+                        <a type="button"
+                           class="btn btn-danger"
+                           v-show="semana_selected == semana"
+                           title="Eliminar"
+                           @click="delete_semana(semana)"
+                        >
+                          <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -222,6 +233,9 @@
                     alert("Muchas unidades")
             },
             delete_unidad: function(unidad) {
+                this.semanasUnidadSeledted(unidad).forEach(function(semana, index){
+                    vm.delete_semana(semana)
+                })
                 this.unidades.forEach(function(elemento, index, array){
                     if (elemento.id == unidad.id)
                         array.splice(index, 1)
@@ -238,7 +252,7 @@
                 var len_semanas = this.semanas.length
                 if (len_semanas < this.max_semanas) {
                     var unidad = this.unidad_selected
-                    var len_semanas_por_unidad = this.semanas.reduce(function(total,semana) {
+                    var len_semanas_por_unidad = this.semanas.reduce(function(total,semana){
                         return semana.unidad_id == unidad.id ? total+1 : total
                     }, 0)
 
@@ -249,17 +263,16 @@
                             unidad_id: this.unidad_selected.id
                         })
 
-
                         var semanas = this.semanas
                         var semanas_por_unidades = []
                         this.unidades.forEach(function(unidad, i) {
-                            semanas_por_unidades[i] = semanas.reduce(function(total,semana) {
+                            semanas_por_unidades[i] = semanas.reduce(function(total,semana){
                                 return semana.unidad_id == unidad.id ? total+1 : total
                             }, 0)
                         })
 
                         var start = 0
-                        this.unidades.forEach(function(unidad, i) {
+                        this.unidades.forEach(function(unidad, i){
                             var end = start + semanas_por_unidades[i]
                             for (; start < end; start++) {
                                 semanas[start].unidad_id = unidad.id
@@ -272,9 +285,20 @@
                 else
                     alert("Muchas semanas")
             },
-            semanasUnidadSeledted: function(unidad)
-            {
-                return this.semanas.filter(function(semana) {
+            delete_semana: function(semana) {
+                this.semanas.forEach(function(elemento, index, array){
+                    if (elemento.id == semana.id)
+                        array.splice(index, 1)
+                })
+
+                this.semanas.forEach(function(elemento, index){
+                    elemento.name = 'Semana ' + (index + 1)
+                })
+
+                this.semana_selected = {}
+            },
+            semanasUnidadSeledted: function(unidad) {
+                return this.semanas.filter(function(semana){
                     return semana.unidad_id == unidad.id
                 })
             }

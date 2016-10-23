@@ -123,7 +123,7 @@
                 <div id="semanas">
                     <div class="clickable semana"
                          id="semana_@{{ semana.id }}"
-                         v-for="semana in unidad_selected.semanas"
+                         v-for="semana in semanasUnidadSeledted(unidad_selected)"
                          @click="select_semana(semana)"
                     >
                         <p>@{{ semana.name }}</p>
@@ -158,11 +158,18 @@
 
         data: {
             unidades: [],
+            semanas: [],
+            temas: [],
             unidad_selected: {},
             semana_selected: {},
+            tema_selected: {},
             last_unidad_id: 0,
             last_semana_id: 0,
+            last_tema_id: 0,
             tema_title: '',
+            max_unidades: 5,
+            max_semanas: 17,
+            max_semanas_por_unidad: 5,
         },
 
         methods: {
@@ -205,30 +212,72 @@
             },
             add_unidad: function() {
                 var new_id = ++this.last_unidad_id
-                this.unidades.push({
-                    id: new_id,
-                    name: 'Unidad ' + (this.unidades.length + 1)
-                })
+                var len_unidades = this.unidades.length
+                if (len_unidades < this.max_unidades)
+                    this.unidades.push({
+                        id: new_id,
+                        name: 'Unidad ' + (len_unidades + 1)
+                    })
+                else
+                    alert("Muchas unidades")
             },
             delete_unidad: function(unidad) {
-                //Delete
-                for (var i = 0; i < this.unidades.length; i++) {
-                    if (this.unidades[i].id == unidad.id) {
-                        this.unidades.splice(i, 1)
-                        break
-                    }
-                }
+                this.unidades.forEach(function(elemento, index, array){
+                    if (elemento.id == unidad.id)
+                        array.splice(index, 1)
+                })
 
-                //Rename
-                for (var i = 0; i < this.unidades.length; i++)
-                    this.unidades[i].name = 'Unidad ' + (i+1)
+                this.unidades.forEach(function(elemento, index){
+                    elemento.name = 'Unidad ' + (index + 1)
+                })
 
                 this.unidad_selected = {}
             },
             add_semana: function() {
                 var new_id = ++this.last_semana_id
-                alert(this.unidad_selected.id + " " + new_id)
+                var len_semanas = this.semanas.length
+                if (len_semanas < this.max_semanas) {
+                    var unidad = this.unidad_selected
+                    var len_semanas_por_unidad = this.semanas.reduce(function(total,semana) {
+                        return semana.unidad_id == unidad.id ? total+1 : total
+                    }, 0)
+
+                    if (len_semanas_por_unidad < this.max_semanas_por_unidad) {
+                        this.semanas.push({
+                            id: new_id,
+                            name: 'Semana ' + (len_semanas + 1),
+                            unidad_id: this.unidad_selected.id
+                        })
+
+
+                        var semanas = this.semanas
+                        var semanas_por_unidades = []
+                        this.unidades.forEach(function(unidad, i) {
+                            semanas_por_unidades[i] = semanas.reduce(function(total,semana) {
+                                return semana.unidad_id == unidad.id ? total+1 : total
+                            }, 0)
+                        })
+
+                        var start = 0
+                        this.unidades.forEach(function(unidad, i) {
+                            var end = start + semanas_por_unidades[i]
+                            for (; start < end; start++) {
+                                semanas[start].unidad_id = unidad.id
+                            }
+                        })
+                    }
+                    else
+                        alert("Muchas semanas en una unidad")
+                }
+                else
+                    alert("Muchas semanas")
             },
+            semanasUnidadSeledted: function(unidad)
+            {
+                return this.semanas.filter(function(semana) {
+                    return semana.unidad_id == unidad.id
+                })
+            }
         },
 
         watch: {
@@ -247,14 +296,10 @@
                 {
                     id: 1,
                     name: "Unidad 1",
-                    semanas : [
-                    ],
                 },
                 {
                     id: 2,
                     name: "Unidad 2",
-                    semanas : [
-                    ],
                 },
             ]
 
@@ -264,27 +309,27 @@
                 {
                     id: 1,
                     name: "Semana 1",
-                    temas: [
-                        {
-                            id: 1,
-                            name: 'Introduccion a la Programacion',
-                        }
-                    ],
+                    unidad_id: 1,
                 },
                 {
                     id: 2,
                     name: "Semana 2",
+                    unidad_id: 1,
                 },
                 {
                     id: 3,
                     name: "Semana 3",
+                    unidad_id: 1,
                 },
                 {
                     id: 4,
                     name: "Semana 4",
+                    unidad_id: 1,
                 },
             ]
+            this.semanas = semanas
 
+            this.last_semana_id += semanas.length
             this.unidades[0].semanas = semanas
             //this.unidad_selected = this.unidades[0]
         }

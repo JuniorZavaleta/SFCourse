@@ -16,12 +16,18 @@
         text-align: center;
     }
     #unidades .unidad{
-        width: 50%;
         margin: 0 auto;
     }
     #semanas .semana {
-        width: 70%;
         margin: 0 auto;
+    }
+    @media(min-width:1200px) {
+        #unidades .unidad {
+            width: 50%;
+        }
+        #semanas .semana {
+            width: 70%;
+        }
     }
     .unidad p, .semana p {
         line-height: 40px;
@@ -39,8 +45,15 @@
         color: #000;
         width: 70%;
     }
-    .column {
-        border-right: #fcf solid 2px;
+    @media(min-width:768px) {
+        .column:first-child {
+            border-right: #fcf solid 2px;
+        }
+    }
+    @media(min-width: 992px) {
+        .column {
+            border-right: #fcf solid 2px;
+        }
     }
     .btn {
         border-radius: 0;
@@ -60,7 +73,7 @@
 
 <div class="col-lg-12">
 
-    <div class="col-lg-3 column">
+    <div class="col-sm-6 col-md-3 column">
         <div class="row">
             <div class="text-center">
                 <h3>Unidades</h3>
@@ -94,10 +107,13 @@
 
     </div>
 
-    <div class="col-lg-3 column">
+    <div class="col-sm-6 col-md-3 column">
         <div class="row">
             <div class="text-center">
                 <h3>Semanas</h3>
+                <a class="btn btn-success" @click="add_semana()" v-show="unidad_selected.id" title="Agregar Unidad">
+                    <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                </a>
             </div>
         </div>
 
@@ -117,7 +133,7 @@
         </div>
     </div>
 
-    <div class="col-lg-6">
+    <div class="col-sm-12 col-md-6">
         <div class="row">
             <div class="text-center">
                 <h3><i>@{{ tema_title }}</i></h3>
@@ -208,7 +224,11 @@
                     this.unidades[i].name = 'Unidad ' + (i+1)
 
                 this.unidad_selected = {}
-            }
+            },
+            add_semana: function() {
+                var new_id = ++this.last_semana_id
+                alert(this.unidad_selected.id + " " + new_id)
+            },
         },
 
         watch: {

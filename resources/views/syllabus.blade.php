@@ -80,6 +80,12 @@
         margin-top: 15px;
     }
     h1,h2,h3,h4,h5,h6 { cursor: default; }
+    hr {
+        width: 90%;
+        border: 1px solid;
+        position: relative;
+        top: 30px;
+    }
 </style>
 
 <div class="col-lg-12" id="app">
@@ -188,23 +194,39 @@
                            v-show="semana_selected.id && !(tema_selected.id)"
                            class="input-text"
                            placeholder="Ingrese el nuevo tema"
+                           id="new-tema"
                            @keyup.enter="add_tema()">
-                    <a class="btn btn-success" @click="add_tema()"
-                       v-show="unidad_selected.id"
-                       title="Agregar Tema">
+                    <a class="btn btn-success"
+                       v-show="semana_selected.id && !(tema_selected.id)"
+                       title="Agregar Tema"
+                       v-show="!tema_selected.id"
+                       @click="add_tema()"
+                       >
                         <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
                     </a>
-                    <a class="btn btn-default" v-show="tema_selected.id" href="#"
+                    <a class="btn btn-default"
+                       v-show="tema_selected.id"
+                       href="#temas"
                        @click="actualizar_tema(tema_selected)">
                        <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
                     </a>
-                    <a class="btn btn-warning" v-show="tema_selected.id" href="#"
+                    <a class="btn btn-warning"
+                       v-show="tema_selected.id"
+                       href="#temas"
                        @click="cancelar_actualizar()">
                        <span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
                     </a>
                 </div>
             </div>
         </div>
+    </div>
+</div>
+
+<hr>
+
+<div class="col-lg-12">
+    <div class="row">
+
     </div>
 </div>
 </div>
@@ -272,8 +294,6 @@
                 this.tema_selected = {}
             },
             select_tema: function(tema) {
-                console.info(tema.id)
-                console.info(this.tema_selected.id)
                 var last_tema = document.getElementById('tema_div_' + this.tema_selected.id)
                 var tema_element = document.getElementById('tema_div_' + tema.id)
 
@@ -290,7 +310,6 @@
                         this.tema_selected = tema
                     }
                 }
-                console.info(this.tema_selected.id)
             },
             add_unidad: function() {
                 var new_id = ++this.last_unidad_id
@@ -378,6 +397,7 @@
                     semana_id: this.semana_selected.id,
                 })
                 this.new_tema = ''
+                document.getElementById('new-tema').focus();
             },
             delete_tema: function(tema) {
                 this.temas.forEach(function(elemento, index, array){

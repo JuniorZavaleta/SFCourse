@@ -128,7 +128,7 @@
         <div class="row">
             <div class="text-center">
                 <h3>Semanas</h3>
-                <a class="btn btn-success" @click="add_semana()" v-show="unidad_selected.id" title="Agregar Unidad">
+                <a class="btn btn-success" @click="add_semana()" v-show="unidad_selected.id" title="Agregar Semana">
                     <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
                 </a>
             </div>
@@ -168,7 +168,16 @@
                          v-for="tema in temasSemanaSelected(semana_selected)"
                     >
                         <p id="tema_@{{ tema.id }}"
-                           @click="add_binding(tema)" >@{{ tema.name }}</p>
+                           @click="add_binding(tema)" >@{{ tema.name }}
+                        </p>
+                        <a type="button"
+                           class="btn btn-danger"
+                           v-show="tema_selected == tema"
+                           title="Eliminar"
+                           @click="delete_tema(tema)"
+                        >
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                        </a>
                     </div>
                     <input v-model="edit_tema"
                            v-show="tema_selected.id"
@@ -180,13 +189,18 @@
                            class="input-text"
                            placeholder="Ingrese el nuevo tema"
                            @keyup.enter="add_tema()">
-                    <a v-show="tema_selected.id" href="#"
-                       @click="actualizar_tema(tema_selected)">
-                       Actualizar
+                    <a class="btn btn-success" @click="add_tema()"
+                       v-show="unidad_selected.id"
+                       title="Agregar Tema">
+                        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
                     </a>
-                    <a v-show="tema_selected.id" href="#"
+                    <a class="btn btn-default" v-show="tema_selected.id" href="#"
+                       @click="actualizar_tema(tema_selected)">
+                       <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
+                    </a>
+                    <a class="btn btn-warning" v-show="tema_selected.id" href="#"
                        @click="cancelar_actualizar()">
-                       Cancelar
+                       <span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
                     </a>
                 </div>
             </div>
@@ -343,6 +357,9 @@
                     alert("Muchas semanas")
             },
             delete_semana: function(semana) {
+                this.temasSemanaSelected(semana).forEach(function(tema, index){
+                    vm.delete_tema(tema)
+                })
                 this.semanas.forEach(function(elemento, index, array){
                     if (elemento.id == semana.id)
                         array.splice(index, 1)
@@ -361,6 +378,14 @@
                     semana_id: this.semana_selected.id,
                 })
                 this.new_tema = ''
+            },
+            delete_tema: function(tema) {
+                this.temas.forEach(function(elemento, index, array){
+                    if (elemento.id == tema.id)
+                        array.splice(index, 1)
+                })
+
+                this.tema_selected = {}
             },
             semanasUnidadSeledted: function(unidad) {
                 return this.semanas.filter(function(semana){

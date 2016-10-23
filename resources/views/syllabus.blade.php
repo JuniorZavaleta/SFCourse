@@ -178,7 +178,8 @@
                     <input v-model="new_tema"
                            v-show="semana_selected.id && !(tema_selected.id)"
                            class="input-text"
-                           placeholder="Ingrese el nuevo tema">
+                           placeholder="Ingrese el nuevo tema"
+                           @keyup.enter="add_tema()">
                     <a v-show="tema_selected.id" href="#"
                        @click="actualizar_tema(tema_selected)">
                        Actualizar
@@ -353,6 +354,14 @@
 
                 this.semana_selected = {}
             },
+            add_tema: function() {
+                this.temas.push({
+                    id: ++this.last_tema_id,
+                    name: this.new_tema,
+                    semana_id: this.semana_selected.id,
+                })
+                this.new_tema = ''
+            },
             semanasUnidadSeledted: function(unidad) {
                 return this.semanas.filter(function(semana){
                     return semana.unidad_id == unidad.id
@@ -406,8 +415,6 @@
                 },
             ]
 
-            this.last_unidad_id += this.unidades.length
-
             var semanas = [
                 {
                     id: 1,
@@ -446,9 +453,9 @@
             ]
             this.temas = temas
 
+            this.last_unidad_id += this.unidades.length
             this.last_semana_id += semanas.length
-            this.unidades[0].semanas = semanas
-            //this.unidad_selected = this.unidades[0]
+            this.last_tema_id += temas.length
         }
     });
 </script>

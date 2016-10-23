@@ -21,6 +21,9 @@
     #semanas .semana {
         margin: 0 auto;
     }
+    #temas .tema {
+        margin: 0 auto;
+    }
     @media(min-width:1200px) {
         #unidades .unidad {
             width: 50%;
@@ -29,7 +32,7 @@
             width: 70%;
         }
     }
-    .unidad p, .semana p {
+    .unidad p, .semana p, .tema p {
         line-height: 40px;
         margin: 0px;
     }
@@ -44,6 +47,12 @@
         background: #95d5e4;
         color: #000;
         width: 70%;
+    }
+    .tema-selected p {
+        display: inline-block;
+        background: #e4e3e6;
+        color: #000;
+        width: 80%;
     }
     @media(min-width:768px) {
         .column:first-child {
@@ -64,6 +73,11 @@
     }
     .btn-danger > .glyphicon {
         top: 3px;
+    }
+    .input-text {
+        padding: 5px;
+        width: 60%;
+        margin-top: 15px;
     }
     h1,h2,h3,h4,h5,h6 { cursor: default; }
 </style>
@@ -150,16 +164,33 @@
                 <h3><i>@{{ tema_title }}</i></h3>
                 <div id="temas">
                     <div class="clickable tema"
-                         id="tema_@{{ tema.id }}"
-                         v-for="tema in semana_selected.temas"
+                         id="tema_div_@{{ tema.id }}"
+                         v-for="tema in temasSemanaSelected(semana_selected)"
                     >
-                        <p>@{{ tema.name }}</p>
+                        <p id="tema_@{{ tema.id }}"
+                           @click="add_binding(tema)" >@{{ tema.name }}</p>
                     </div>
+                    <input v-model="edit_tema"
+                           v-show="tema_selected.id"
+                           class="input-text"
+                           id="edit-tema"
+                           data-id="">
+                    <input v-model="new_tema"
+                           v-show="semana_selected.id && !(tema_selected.id)"
+                           class="input-text"
+                           placeholder="Ingrese el nuevo tema">
+                    <a v-show="tema_selected.id" href="#"
+                       @click="actualizar_tema(tema_selected)">
+                       Actualizar
+                    </a>
+                    <a v-show="tema_selected.id" href="#"
+                       @click="cancelar_actualizar()">
+                       Cancelar
+                    </a>
                 </div>
             </div>
         </div>
     </div>
-
 </div>
 </div>
 <script type="text/javascript">
@@ -181,6 +212,8 @@
             max_unidades: 5,
             max_semanas: 17,
             max_semanas_por_unidad: 5,
+            new_tema: '',
+            edit_tema: '',
         },
 
         methods: {
@@ -202,6 +235,7 @@
                     }
                 }
                 this.semana_selected = {}
+                this.tema_selected = {}
             },
             select_semana: function(semana) {
                 var last_semana = document.getElementById('semana_' + this.semana_selected.id)
@@ -220,6 +254,28 @@
                         this.semana_selected = semana
                     }
                 }
+                this.tema_selected = {}
+            },
+            select_tema: function(tema) {
+                console.info(tema.id)
+                console.info(this.tema_selected.id)
+                var last_tema = document.getElementById('tema_div_' + this.tema_selected.id)
+                var tema_element = document.getElementById('tema_div_' + tema.id)
+
+                if (this.tema_selected.id == undefined) {
+                    tema_element.className += ' tema-selected'
+                    this.tema_selected = tema
+                } else {
+                    if (this.tema_selected.id == tema.id) {
+                        tema_element.className = 'clickable tema'
+                        this.tema_selected = {}
+                    } else {
+                        last_tema.className = 'clickable tema'
+                        tema_element.className += ' tema-selected'
+                        this.tema_selected = tema
+                    }
+                }
+                console.info(this.tema_selected.id)
             },
             add_unidad: function() {
                 var new_id = ++this.last_unidad_id
@@ -301,6 +357,29 @@
                 return this.semanas.filter(function(semana){
                     return semana.unidad_id == unidad.id
                 })
+            },
+            temasSemanaSelected: function(semana) {
+                return this.temas.filter(function(tema){
+                    return tema.semana_id == semana.id
+                })
+            },
+            add_binding: function(tema) {
+                document.getElementById('edit-tema').dataset.id = tema.id
+                this.select_tema(tema)
+                this.edit_tema = tema.name
+            },
+            actualizar_tema: function(tema) {
+                var tema_id = document.getElementById('edit-tema').dataset.id
+                var tema_filtered = this.temas.filter(function(elemento){
+                    return tema.id == elemento.id
+                })[0]
+                tema_filtered.name = this.edit_tema
+                this.edit_tema = ''
+                this.cancelar_actualizar()
+            },
+            cancelar_actualizar: function() {
+                this.select_tema(this.tema_selected)
+                this.tema_selected = {}
             }
         },
 
@@ -352,6 +431,20 @@
                 },
             ]
             this.semanas = semanas
+
+            var temas = [
+                {
+                    id: 1,
+                    name: 'Introduccion a la Programacion',
+                    semana_id: 1,
+                },
+                {
+                    id: 2,
+                    name: 'Variables',
+                    semana_id: 1,
+                },
+            ]
+            this.temas = temas
 
             this.last_semana_id += semanas.length
             this.unidades[0].semanas = semanas

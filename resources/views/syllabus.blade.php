@@ -10,17 +10,20 @@
     .unidad-selected {
     }
     .semana-selected {
-        background: #fc0;
     }
-    #unidades {
+    #unidades, #semanas {
         margin-top: 15px;
         text-align: center;
     }
-    #unidades .unidad {
+    #unidades .unidad{
         width: 50%;
         margin: 0 auto;
     }
-    .unidad p {
+    #semanas .semana {
+        width: 70%;
+        margin: 0 auto;
+    }
+    .unidad p, .semana p {
         line-height: 40px;
         margin: 0px;
     }
@@ -30,14 +33,23 @@
         color: #000;
         width: 70%;
     }
+    .semana-selected p {
+        display: inline-block;
+        background: #95d5e4;
+        color: #000;
+        width: 70%;
+    }
     .column {
         border-right: #fcf solid 2px;
     }
     .btn {
-        height: 40px;
         border-radius: 0;
         margin-top: -2px;
     }
+    .btn-danger {
+        height: 40px;
+    }
+    h1,h2,h3,h4,h5,h6 { cursor: default; }
 </style>
 
 <div class="col-lg-12" id="app">
@@ -91,7 +103,7 @@
 
         <div class="row">
             <div class="text-center">
-                <h4>@{{ unidad_selected.name }}</h4>
+                <h4><i>@{{ unidad_selected.name }}</i></h4>
                 <div id="semanas">
                     <div class="clickable semana"
                          id="semana_@{{ semana.id }}"
@@ -108,7 +120,7 @@
     <div class="col-lg-6">
         <div class="row">
             <div class="text-center">
-                <h3>Temas - Unidad 1 - Semana 1</h3>
+                <h3><i>@{{ tema_title }}</i></h3>
                 <div id="temas">
                     <div class="clickable tema"
                          id="tema_@{{ tema.id }}"
@@ -134,6 +146,7 @@
             semana_selected: {},
             last_unidad_id: 0,
             last_semana_id: 0,
+            tema_title: '',
         },
 
         methods: {
@@ -195,6 +208,16 @@
                     this.unidades[i].name = 'Unidad ' + (i+1)
 
                 this.unidad_selected = {}
+            }
+        },
+
+        watch: {
+            semana_selected: function(newValue)
+            {
+                if (newValue.id == undefined)
+                    this.tema_title = ''
+                else
+                    this.tema_title = 'Temas - ' + this.unidad_selected.name + ' - ' + this.semana_selected.name
             }
         },
 

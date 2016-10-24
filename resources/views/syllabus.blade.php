@@ -52,7 +52,7 @@
     }
     .input-text {
         padding: 5px;
-        width: 80%;
+        width: 70%;
         margin-top: 15px;
         border: 0px;
         border-bottom: 1px solid;
@@ -103,6 +103,9 @@
     }
     .float-right {
         float: right;
+    }
+    .table > tbody > tr > td {
+        vertical-align: middle;
     }
     @media(min-width:768px) {
         .input-text {
@@ -245,7 +248,8 @@
                                v-show="tema_selected.id"
                                class="input-text"
                                id="edit-tema"
-                               data-id="">
+                               data-id=""
+                               @keyup.enter="actualizar_tema(tema_selected)">
                         <input v-model="new_tema"
                                v-show="semana_selected.id && !(tema_selected.id)"
                                class="input-text"
@@ -262,13 +266,11 @@
                         </a>
                         <a class="btn btn-default"
                            v-show="tema_selected.id"
-                           href="#temas"
                            @click="actualizar_tema(tema_selected)">
                            <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
                         </a>
                         <a class="btn btn-warning"
                            v-show="tema_selected.id"
-                           href="#temas"
                            @click="cancelar_actualizar()">
                            <span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
                         </a>
@@ -296,7 +298,7 @@
 </div>
 
 <div class="row row-ref">
-    <div class="col-xs-12 col-sm-4 col-lg-3">
+    <div class="col-xs-12 col-sm-3 col-lg-3">
         <div class="col-xs-3">
             <div class="text-center">
                 <label class="label-ref">Autor(es)</label>
@@ -332,7 +334,7 @@
         </div>
     </div>
 
-    <div class="col-xs-12 col-sm-1 col-lg-2">
+    <div class="col-xs-12 col-sm-2 col-lg-2">
         <div class="text-center add-ref-container">
             <a class="btn btn-success"
                @click="add_ref_bibliografica()"
@@ -342,13 +344,11 @@
             </a>
             <a class="btn btn-default"
                v-show="ref_selected.id"
-               href="#temas"
                @click="actualizar_ref(ref_selected)">
                <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
             </a>
             <a class="btn btn-warning"
                v-show="ref_selected.id"
-               href="#temas"
                @click="cancelar_actualizar_ref()">
                <span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
             </a>
@@ -369,6 +369,7 @@
             <tbody>
                 <tr v-for="ref in ref_bibliografica"
                     id="ref_@{{ ref.id }}"
+                    class="clickable"
                     @click="add_binding_ref(ref)">
                     <td>@{{ ref.author }}</td>
                     <td>@{{ ref.year }}</td>
@@ -625,7 +626,6 @@
                 this.edit_ref_titulo = ref.title
             },
             actualizar_tema: function(tema) {
-                var tema_id = document.getElementById('edit-tema').dataset.id
                 var tema_filtered = this.temas.filter(function(elemento){
                     return tema.id == elemento.id
                 })[0]
@@ -663,6 +663,22 @@
                     if (elemento.id == ref.id)
                         array.splice(index, 1)
                 })
+            },
+            actualizar_ref: function(ref) {
+                var ref_filtered = this.ref_bibliografica.filter(function(elemento){
+                    return ref.id == elemento.id
+                })[0]
+                ref_filtered.year = this.edit_ref_anio
+                ref_filtered.author = this.edit_ref_autor
+                ref_filtered.title = this.edit_ref_titulo
+                this.edit_ref_autor = ''
+                this.edit_ref_titulo = ''
+                this.edit_ref_anio = ''
+                this.cancelar_actualizar_ref()
+            },
+            cancelar_actualizar_ref: function(ref) {
+                this.select_ref(this.ref_selected)
+                this.ref_selected = {}
             }
         },
 

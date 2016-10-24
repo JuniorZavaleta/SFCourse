@@ -278,7 +278,7 @@
             </div>
         </div>
         <div class="col-xs-9">
-            <input class="input-ref" v-model="new_ref_autor">
+            <input class="input-ref" v-model="new_ref_autor" id="new_ref_autor">
         </div>
     </div>
 
@@ -329,7 +329,9 @@
                     <td>@{{ ref.year }}</td>
                     <td>@{{ ref.title }}</td>
                     <td>
-                        <a class="btn btn-danger" title="Eliminar">
+                        <a class="btn btn-danger"
+                           title="Eliminar"
+                           @click="delete_ref_bibliografica(ref)">
                             <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                         </a>
                     </td>
@@ -568,10 +570,17 @@
                     this.new_ref_autor = ''
                     this.new_ref_anio = ''
                     this.new_ref_titulo = ''
+                    document.getElementById('new_ref_autor').focus();
                 } else {
                     alert("Ingrese campos validos")
                 }
             },
+            delete_ref_bibliografica: function(ref) {
+                this.ref_bibliografica.forEach(function(elemento, index, array){
+                    if (elemento.id == ref.id)
+                        array.splice(index, 1)
+                })
+            }
         },
 
         watch: {

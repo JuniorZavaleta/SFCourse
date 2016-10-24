@@ -66,7 +66,6 @@
         border-bottom: 1px solid;
         outline: none;
         background: inherit;
-        margin-top: -5px;
     }
     .btn {
         border-radius: 0;
@@ -92,8 +91,8 @@
         margin-bottom: 10px;
     }
     .label-ref {
-        position: relative;
-        bottom: -5px;
+        line-height: 33px;
+        margin-top: 5px;
     }
     .add-ref-container {
         margin-top: 20px;

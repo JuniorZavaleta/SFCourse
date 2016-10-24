@@ -11,6 +11,10 @@
     }
     .semana-selected {
     }
+    .ref-selected {
+        background: black;
+        color: white;
+    }
     #unidades, #semanas {
         margin-top: 15px;
         text-align: center;
@@ -273,8 +277,6 @@
             </div>
         </div>
 
-
-
     </div>
 </div>
 
@@ -301,7 +303,8 @@
             </div>
         </div>
         <div class="col-xs-9">
-            <input class="input-ref" v-model="new_ref_autor" id="new_ref_autor">
+            <input class="input-ref" v-model="new_ref_autor" id="new_ref_autor" v-show="!(ref_selected.id)">
+            <input class="input-ref" v-model="edit_ref_autor" id="edit-ref-autor" data-id="" v-show="ref_selected.id">
         </div>
     </div>
 
@@ -312,7 +315,8 @@
             </div>
         </div>
         <div class="col-xs-9">
-            <input class="input-ref" v-model="new_ref_anio">
+            <input class="input-ref" v-model="new_ref_anio" id="new_ref_anio" v-show="!(ref_selected.id)">
+            <input class="input-ref" v-model="edit_ref_anio" id="edit-ref-anio" v-show="ref_selected.id">
         </div>
     </div>
 
@@ -323,14 +327,30 @@
             </div>
         </div>
         <div class="col-xs-9">
-            <input class="input-ref" v-model="new_ref_titulo">
+            <input class="input-ref" v-model="new_ref_titulo" id="new_ref_titulo" v-show="!(ref_selected.id)">
+            <input class="input-ref" v-model="edit_ref_titulo" id="edit-ref-titulo" v-show="ref_selected.id">
         </div>
     </div>
 
     <div class="col-xs-12 col-sm-1 col-lg-2">
         <div class="text-center add-ref-container">
-            <a class="btn btn-success" @click="add_ref_bibliografica()" title="Agregar Referencia Bibliografica">
+            <a class="btn btn-success"
+               @click="add_ref_bibliografica()"
+               v-show="!(ref_selected.id)"
+               title="Agregar Referencia Bibliografica">
                 <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+            </a>
+            <a class="btn btn-default"
+               v-show="ref_selected.id"
+               href="#temas"
+               @click="actualizar_ref(ref_selected)">
+               <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
+            </a>
+            <a class="btn btn-warning"
+               v-show="ref_selected.id"
+               href="#temas"
+               @click="cancelar_actualizar_ref()">
+               <span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
             </a>
         </div>
     </div>
@@ -347,7 +367,9 @@
                 <th></th>
             </thead>
             <tbody>
-                <tr v-for="ref in ref_bibliografica">
+                <tr v-for="ref in ref_bibliografica"
+                    id="ref_@{{ ref.id }}"
+                    @click="add_binding_ref(ref)">
                     <td>@{{ ref.author }}</td>
                     <td>@{{ ref.year }}</td>
                     <td>@{{ ref.title }}</td>
@@ -377,22 +399,33 @@
             semanas: [],
             temas: [],
             ref_bibliografica: [],
+
             unidad_selected: {},
             semana_selected: {},
             tema_selected: {},
+            ref_selected: {},
+
             last_unidad_id: 0,
             last_semana_id: 0,
             last_tema_id: 0,
             last_ref_id: 0,
-            tema_title: '',
+
             max_unidades: 5,
             max_semanas: 17,
             max_semanas_por_unidad: 5,
+
             new_tema: '',
             edit_tema: '',
+
             new_ref_autor: '',
             new_ref_anio: '',
             new_ref_titulo: '',
+
+            edit_ref_autor: '',
+            edit_ref_anio: '',
+            edit_ref_titulo: '',
+
+            tema_title: '',
         },
 
         methods: {
@@ -450,6 +483,24 @@
                         last_tema.className = 'clickable tema'
                         tema_element.className += ' tema-selected'
                         this.tema_selected = tema
+                    }
+                }
+            },
+            select_ref: function(ref) {
+                var last_ref = document.getElementById('ref_' + this.ref_selected.id)
+                var ref_element = document.getElementById('ref_' + ref.id)
+
+                if (this.ref_selected.id == undefined) {
+                    ref_element.className += ' ref-selected'
+                    this.ref_selected = ref
+                } else {
+                    if (this.ref_selected.id == ref.id) {
+                        ref_element.className = 'clickable ref'
+                        this.ref_selected = {}
+                    } else {
+                        last_ref.className = 'clickable ref'
+                        ref_element.className += ' ref-selected'
+                        this.ref_selected = ref
                     }
                 }
             },
@@ -564,6 +615,15 @@
                 this.select_tema(tema)
                 this.edit_tema = tema.name
             },
+            add_binding_ref: function(ref) {
+                document.getElementById('edit-ref-autor').dataset.id = ref.id
+                document.getElementById('edit-ref-titulo').dataset.id = ref.id
+                document.getElementById('edit-ref-anio').dataset.id = ref.id
+                this.select_ref(ref)
+                this.edit_ref_autor = ref.author
+                this.edit_ref_anio = ref.year
+                this.edit_ref_titulo = ref.title
+            },
             actualizar_tema: function(tema) {
                 var tema_id = document.getElementById('edit-tema').dataset.id
                 var tema_filtered = this.temas.filter(function(elemento){
@@ -667,9 +727,26 @@
             ]
             this.temas = temas
 
+            var refs = [
+                {
+                    id: 1,
+                    author: 'Cesar Vallejo',
+                    year: '1980',
+                    title: 'Trilce',
+                },
+                {
+                    id: 2,
+                    author: 'Dan Brown',
+                    year: '2013',
+                    title: 'Inferno',
+                },
+            ]
+            this.ref_bibliografica = refs
+
             this.last_unidad_id += this.unidades.length
             this.last_semana_id += semanas.length
             this.last_tema_id += temas.length
+            this.last_ref_id += refs.length
         }
     });
 </script>

@@ -138,6 +138,7 @@
             width: 80%;
         }
     }
+    [v-cloak] { display:none; }
 </style>
 
 <div class="row">
@@ -147,7 +148,7 @@
         </div>
     </div>
 </div>
-<div class="row">
+<div class="row" v-cloak>
     <div class="col-lg-12">
 
         <div class="col-sm-6 col-md-3 column">
@@ -288,7 +289,7 @@
     </div>
 </div>
 
-<div class="row">
+<div class="row" v-cloak>
 
     <div class="col-xs-12">
         <div class="text-center">
@@ -297,7 +298,7 @@
     </div>
 </div>
 
-<div class="row row-ref">
+<div class="row row-ref" v-cloak>
     <div class="col-xs-12 col-sm-3 col-lg-3">
         <div class="col-xs-3">
             <div class="text-center">
@@ -357,7 +358,7 @@
 </div>
 
 
-<div class="row">
+<div class="row" v-cloak>
     <div class="col-xs-12">
         <table class="table">
             <thead>

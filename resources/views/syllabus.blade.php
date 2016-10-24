@@ -58,7 +58,18 @@
         padding: 5px;
         width: 80%;
         margin-top: 15px;
+        border: 0px;
+        border-bottom: 1px solid;
+        outline: none;
+        background: inherit;
     }
+    .input-text::-webkit-input-placeholder { text-align: center; }
+    /* Firefox 18- */
+    .input-text:-moz-placeholder { text-align: center; }
+    /* Firefox 19+ */
+    .input-text::-moz-placeholder { text-align: center; }
+    .input-text:-ms-input-placeholder { text-align: center; }
+
     .input-ref {
         border: 0px;
         padding: 5px;
@@ -69,7 +80,7 @@
     }
     .btn {
         border-radius: 0;
-        margin-top: -2px;
+        margin-top: -1px;
     }
     .btn-danger {
         height: 40px;
@@ -80,9 +91,7 @@
     h1,h2,h3,h4,h5,h6 { cursor: default; }
     hr {
         width: 90%;
-        border: 1px solid;
-        position: relative;
-        top: 30px;
+        border-top: 2px solid #eeeeee;
     }
     .row {
         margin: 0;
@@ -254,9 +263,14 @@
             </div>
         </div>
 
+
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
         <hr>
-
-
     </div>
 </div>
 

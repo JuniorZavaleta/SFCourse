@@ -24,14 +24,6 @@
     #temas .tema {
         margin: 0 auto;
     }
-    @media(min-width:1200px) {
-        #unidades .unidad {
-            width: 50%;
-        }
-        #semanas .semana {
-            width: 70%;
-        }
-    }
     .unidad p, .semana p, .tema p {
         line-height: 40px;
         margin: 0px;
@@ -52,7 +44,7 @@
         display: inline-block;
         background: #e4e3e6;
         color: #000;
-        width: 80%;
+        width: 100%;
     }
     .input-text {
         padding: 5px;
@@ -80,7 +72,6 @@
     }
     .btn {
         border-radius: 0;
-        margin-top: -1px;
     }
     .btn-danger {
         height: 40px;
@@ -106,6 +97,9 @@
     .add-ref-container {
         margin-top: 20px;
     }
+    .float-right {
+        float: right;
+    }
     @media(min-width:768px) {
         .input-text {
             width: 60%;
@@ -120,10 +114,21 @@
         .add-ref-container {
             margin-top: 0px;
         }
+        .tema-selected p {
+            width: 80%;
+        }
     }
     @media(min-width: 992px) {
         .column {
             border-right: #fcf solid 2px;
+        }
+    }
+    @media(min-width:1200px) {
+        #unidades .unidad {
+            width: 70%;
+        }
+        #semanas .semana {
+            width: 80%;
         }
     }
 </style>
@@ -156,15 +161,17 @@
                             v-for="unidad in unidades"
                             @click="select_unidad(unidad)"
                         >
-                            <p>@{{ unidad.name }}</p>
-                            <a type="button"
-                               class="btn btn-danger"
-                               v-show="unidad_selected == unidad"
-                               title="Eliminar"
-                               @click="delete_unidad(unidad)"
-                            >
-                              <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                            </a>
+                            <p>
+                                <span>@{{ unidad.name }}</span>
+                                <a type="button"
+                                   class="btn btn-danger float-right"
+                                   v-show="unidad_selected == unidad"
+                                   title="Eliminar"
+                                   @click="delete_unidad(unidad)"
+                                >
+                                  <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                </a>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -191,15 +198,17 @@
                              v-for="semana in semanasUnidadSeledted(unidad_selected)"
                              @click="select_semana(semana)"
                         >
-                            <p>@{{ semana.name }}</p>
-                            <a type="button"
-                               class="btn btn-danger"
-                               v-show="semana_selected == semana"
-                               title="Eliminar"
-                               @click="delete_semana(semana)"
-                            >
-                              <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                            </a>
+                            <p>
+                                <span>@{{ semana.name }}</span>
+                                <a type="button"
+                                   class="btn btn-danger float-right"
+                                   v-show="semana_selected == semana"
+                                   title="Eliminar"
+                                   @click="delete_semana(semana)"
+                                >
+                                  <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                </a>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -216,16 +225,17 @@
                              v-for="tema in temasSemanaSelected(semana_selected)"
                         >
                             <p id="tema_@{{ tema.id }}"
-                               @click="add_binding(tema)" >@{{ tema.name }}
+                               @click="add_binding(tema)" >
+                                <span>@{{ tema.name }}</span>
+                                <a type="button"
+                                   class="btn btn-danger float-right"
+                                   v-show="tema_selected == tema"
+                                   title="Eliminar"
+                                   @click="delete_tema(tema)"
+                                >
+                                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                </a>
                             </p>
-                            <a type="button"
-                               class="btn btn-danger"
-                               v-show="tema_selected == tema"
-                               title="Eliminar"
-                               @click="delete_tema(tema)"
-                            >
-                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                            </a>
                         </div>
                         <input v-model="edit_tema"
                                v-show="tema_selected.id"

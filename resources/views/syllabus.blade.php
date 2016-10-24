@@ -54,15 +54,19 @@
         color: #000;
         width: 80%;
     }
-    @media(min-width:768px) {
-        .column:first-child {
-            border-right: #fcf solid 2px;
-        }
+    .input-text {
+        padding: 5px;
+        width: 80%;
+        margin-top: 15px;
     }
-    @media(min-width: 992px) {
-        .column {
-            border-right: #fcf solid 2px;
-        }
+    .input-ref {
+        border: 0px;
+        padding: 5px;
+        width: 80%;
+        border-bottom: 1px solid;
+        outline: none;
+        background: inherit;
+        margin-top: -5px;
     }
     .btn {
         border-radius: 0;
@@ -74,11 +78,6 @@
     .btn-danger > .glyphicon {
         top: 3px;
     }
-    .input-text {
-        padding: 5px;
-        width: 60%;
-        margin-top: 15px;
-    }
     h1,h2,h3,h4,h5,h6 { cursor: default; }
     hr {
         width: 90%;
@@ -86,149 +85,262 @@
         position: relative;
         top: 30px;
     }
+    .row {
+        margin: 0;
+    }
+    .row-ref {
+        margin-bottom: 10px;
+    }
+    .label-ref {
+        position: relative;
+        bottom: -5px;
+    }
+    .add-ref-container {
+        margin-top: 20px;
+    }
+    @media(min-width:768px) {
+        .input-text {
+            width: 60%;
+        }
+        .column:first-child {
+            border-right: #fcf solid 2px;
+        }
+        .input-ref {
+            margin-right: 10px;
+            width: 100%;
+        }
+        .add-ref-container {
+            margin-top: 0px;
+        }
+    }
+    @media(min-width: 992px) {
+        .column {
+            border-right: #fcf solid 2px;
+        }
+    }
 </style>
 
-<div class="col-lg-12" id="app">
-    <div class="text-center">
-        <h1>Registrar Syllabus del curso de Programacion I</h1>
+<div class="row">
+    <div class="col-lg-12" id="app">
+        <div class="text-center">
+            <h1>Registrar Syllabus del curso de Programacion I</h1>
+        </div>
     </div>
 </div>
+<div class="row">
+    <div class="col-lg-12">
 
-<div class="col-lg-12">
-
-    <div class="col-sm-6 col-md-3 column">
-        <div class="row">
-            <div class="text-center">
-                <h3>Unidades</h3>
-                <a class="btn btn-success" @click="add_unidad()" title="Agregar Unidad">
-                    <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
-                </a>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="text-center">
-                <div id="unidades">
-                    <div class="clickable unidad"
-                        id="unidad_@{{ unidad.id }}"
-                        v-for="unidad in unidades"
-                        @click="select_unidad(unidad)"
-                    >
-                        <p>@{{ unidad.name }}</p>
-                        <a type="button"
-                           class="btn btn-danger"
-                           v-show="unidad_selected == unidad"
-                           title="Eliminar"
-                           @click="delete_unidad(unidad)"
-                        >
-                          <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <div class="col-sm-6 col-md-3 column">
-        <div class="row">
-            <div class="text-center">
-                <h3>Semanas</h3>
-                <a class="btn btn-success" @click="add_semana()" v-show="unidad_selected.id" title="Agregar Semana">
-                    <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
-                </a>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="text-center">
-                <h4><i>@{{ unidad_selected.name }}</i></h4>
-                <div id="semanas">
-                    <div class="clickable semana"
-                         id="semana_@{{ semana.id }}"
-                         v-for="semana in semanasUnidadSeledted(unidad_selected)"
-                         @click="select_semana(semana)"
-                    >
-                        <p>@{{ semana.name }}</p>
-                        <a type="button"
-                           class="btn btn-danger"
-                           v-show="semana_selected == semana"
-                           title="Eliminar"
-                           @click="delete_semana(semana)"
-                        >
-                          <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-sm-12 col-md-6">
-        <div class="row">
-            <div class="text-center">
-                <h3><i>@{{ tema_title }}</i></h3>
-                <div id="temas">
-                    <div class="clickable tema"
-                         id="tema_div_@{{ tema.id }}"
-                         v-for="tema in temasSemanaSelected(semana_selected)"
-                    >
-                        <p id="tema_@{{ tema.id }}"
-                           @click="add_binding(tema)" >@{{ tema.name }}
-                        </p>
-                        <a type="button"
-                           class="btn btn-danger"
-                           v-show="tema_selected == tema"
-                           title="Eliminar"
-                           @click="delete_tema(tema)"
-                        >
-                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                        </a>
-                    </div>
-                    <input v-model="edit_tema"
-                           v-show="tema_selected.id"
-                           class="input-text"
-                           id="edit-tema"
-                           data-id="">
-                    <input v-model="new_tema"
-                           v-show="semana_selected.id && !(tema_selected.id)"
-                           class="input-text"
-                           placeholder="Ingrese el nuevo tema"
-                           id="new-tema"
-                           @keyup.enter="add_tema()">
-                    <a class="btn btn-success"
-                       v-show="semana_selected.id && !(tema_selected.id)"
-                       title="Agregar Tema"
-                       v-show="!tema_selected.id"
-                       @click="add_tema()"
-                       >
+        <div class="col-sm-6 col-md-3 column">
+            <div class="row">
+                <div class="text-center">
+                    <h3>Unidades</h3>
+                    <a class="btn btn-success" @click="add_unidad()" title="Agregar Unidad">
                         <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
                     </a>
-                    <a class="btn btn-default"
-                       v-show="tema_selected.id"
-                       href="#temas"
-                       @click="actualizar_tema(tema_selected)">
-                       <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
-                    </a>
-                    <a class="btn btn-warning"
-                       v-show="tema_selected.id"
-                       href="#temas"
-                       @click="cancelar_actualizar()">
-                       <span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="text-center">
+                    <div id="unidades">
+                        <div class="clickable unidad"
+                            id="unidad_@{{ unidad.id }}"
+                            v-for="unidad in unidades"
+                            @click="select_unidad(unidad)"
+                        >
+                            <p>@{{ unidad.name }}</p>
+                            <a type="button"
+                               class="btn btn-danger"
+                               v-show="unidad_selected == unidad"
+                               title="Eliminar"
+                               @click="delete_unidad(unidad)"
+                            >
+                              <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-sm-6 col-md-3 column">
+            <div class="row">
+                <div class="text-center">
+                    <h3>Semanas</h3>
+                    <a class="btn btn-success" @click="add_semana()" v-show="unidad_selected.id" title="Agregar Semana">
+                        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
                     </a>
                 </div>
             </div>
+
+            <div class="row">
+                <div class="text-center">
+                    <h4><i>@{{ unidad_selected.name }}</i></h4>
+                    <div id="semanas">
+                        <div class="clickable semana"
+                             id="semana_@{{ semana.id }}"
+                             v-for="semana in semanasUnidadSeledted(unidad_selected)"
+                             @click="select_semana(semana)"
+                        >
+                            <p>@{{ semana.name }}</p>
+                            <a type="button"
+                               class="btn btn-danger"
+                               v-show="semana_selected == semana"
+                               title="Eliminar"
+                               @click="delete_semana(semana)"
+                            >
+                              <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6">
+            <div class="row">
+                <div class="text-center">
+                    <h3><i>@{{ tema_title }}</i></h3>
+                    <div id="temas">
+                        <div class="clickable tema"
+                             id="tema_div_@{{ tema.id }}"
+                             v-for="tema in temasSemanaSelected(semana_selected)"
+                        >
+                            <p id="tema_@{{ tema.id }}"
+                               @click="add_binding(tema)" >@{{ tema.name }}
+                            </p>
+                            <a type="button"
+                               class="btn btn-danger"
+                               v-show="tema_selected == tema"
+                               title="Eliminar"
+                               @click="delete_tema(tema)"
+                            >
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                            </a>
+                        </div>
+                        <input v-model="edit_tema"
+                               v-show="tema_selected.id"
+                               class="input-text"
+                               id="edit-tema"
+                               data-id="">
+                        <input v-model="new_tema"
+                               v-show="semana_selected.id && !(tema_selected.id)"
+                               class="input-text"
+                               placeholder="Ingrese el nuevo tema"
+                               id="new-tema"
+                               @keyup.enter="add_tema()">
+                        <a class="btn btn-success"
+                           v-show="semana_selected.id && !(tema_selected.id)"
+                           title="Agregar Tema"
+                           v-show="!tema_selected.id"
+                           @click="add_tema()"
+                           >
+                            <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                        </a>
+                        <a class="btn btn-default"
+                           v-show="tema_selected.id"
+                           href="#temas"
+                           @click="actualizar_tema(tema_selected)">
+                           <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
+                        </a>
+                        <a class="btn btn-warning"
+                           v-show="tema_selected.id"
+                           href="#temas"
+                           @click="cancelar_actualizar()">
+                           <span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+
+    </div>
+</div>
+
+<div class="row">
+
+    <div class="col-xs-12">
+        <div class="text-center">
+            <h3>Referencia Bibliografica</h3>
         </div>
     </div>
 </div>
 
-<hr>
+<div class="row row-ref">
+    <div class="col-xs-12 col-sm-4 col-lg-3">
+        <div class="col-xs-3">
+            <div class="text-center">
+                <label class="label-ref">Autor(es)</label>
+            </div>
+        </div>
+        <div class="col-xs-9">
+            <input class="input-ref" v-model="new_ref_autor">
+        </div>
+    </div>
 
-<div class="col-lg-12">
-    <div class="row">
+    <div class="col-xs-12 col-sm-3 col-lg-2">
+        <div class="col-xs-3">
+            <div class="text-center">
+                <label class="label-ref">Año</label>
+            </div>
+        </div>
+        <div class="col-xs-9">
+            <input class="input-ref" v-model="new_ref_anio">
+        </div>
+    </div>
 
+    <div class="col-xs-12 col-sm-4 col-lg-5">
+        <div class="col-xs-3">
+            <div class="text-center">
+                <label class="label-ref">Título</label>
+            </div>
+        </div>
+        <div class="col-xs-9">
+            <input class="input-ref" v-model="new_ref_titulo">
+        </div>
+    </div>
+
+    <div class="col-xs-12 col-sm-1 col-lg-2">
+        <div class="text-center add-ref-container">
+            <a class="btn btn-success" @click="add_ref_bibliografica()" title="Agregar Referencia Bibliografica">
+                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+            </a>
+        </div>
     </div>
 </div>
+
+
+<div class="row">
+    <div class="col-xs-12">
+        <table class="table">
+            <thead>
+                <th>Autor(es)</th>
+                <th>Año de publicación</th>
+                <th>Título</th>
+                <th></th>
+            </thead>
+            <tbody>
+                <tr v-for="ref in ref_bibliografica">
+                    <td>@{{ ref.author }}</td>
+                    <td>@{{ ref.year }}</td>
+                    <td>@{{ ref.title }}</td>
+                    <td>
+                        <a class="btn btn-danger" title="Eliminar">
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div class="footer" style="height: 100px;">
 </div>
 <script type="text/javascript">
     var vm = new Vue(
@@ -239,18 +351,23 @@
             unidades: [],
             semanas: [],
             temas: [],
+            ref_bibliografica: [],
             unidad_selected: {},
             semana_selected: {},
             tema_selected: {},
             last_unidad_id: 0,
             last_semana_id: 0,
             last_tema_id: 0,
+            last_ref_id: 0,
             tema_title: '',
             max_unidades: 5,
             max_semanas: 17,
             max_semanas_por_unidad: 5,
             new_tema: '',
             edit_tema: '',
+            new_ref_autor: '',
+            new_ref_anio: '',
+            new_ref_titulo: '',
         },
 
         methods: {
@@ -434,7 +551,27 @@
             cancelar_actualizar: function() {
                 this.select_tema(this.tema_selected)
                 this.tema_selected = {}
-            }
+            },
+            add_ref_bibliografica: function() {
+                if (this.new_ref_autor != "" &&
+                    this.new_ref_anio != "" &&
+                    this.new_ref_anio > 1900 &&
+                    this.new_ref_anio < 2016 &&
+                    this.new_ref_titulo != ""
+                    ) {
+                    this.ref_bibliografica.push({
+                        id: ++this.last_ref_id,
+                        author: this.new_ref_autor,
+                        year: this.new_ref_anio,
+                        title: this.new_ref_titulo,
+                    })
+                    this.new_ref_autor = ''
+                    this.new_ref_anio = ''
+                    this.new_ref_titulo = ''
+                } else {
+                    alert("Ingrese campos validos")
+                }
+            },
         },
 
         watch: {

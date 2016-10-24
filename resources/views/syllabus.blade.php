@@ -396,6 +396,7 @@
     </div>
 </div>
 <div v-show="see_preview" v-cloak>
+    <form class="form" method="POST" id="syllabusForm" v-on:submit.prevent="onSubmit()">
     <div class="row">
         <div class="col-lg-12" id="app">
             <div class="text-center">
@@ -431,8 +432,11 @@
     <div class="row">
         <div class="text-center">
             <a class="btn btn-default" @click="see_preview = false">Cancelar previsualizacion</a>
+            {{ csrf_field() }}
+            <button class="btn btn-primary">Guardar Syllabus</button>
         </div>
     </div>
+    </form>
 </div>
 
 <div class="footer" style="height: 25px;" v-cloak>
@@ -730,6 +734,20 @@
                 this.select_ref(this.ref_selected)
                 this.ref_selected = {}
             },
+            onSubmit: function() {
+                this.$http.post('/admin/syllabus',
+                    {
+                        unidades: this.unidades,
+                        semanas: this.semanas,
+                        temas: this.temas,
+                        refs: this.ref_bibliografica,
+                    }
+                ).then((response) => {
+
+                }, (response) => {
+
+                })
+            }
         },
 
         watch: {

@@ -56,6 +56,18 @@ Route::group(['prefix' => 'facultades', 'as' => 'facultades.'], function() {
                 Route::post('/eliminar', ['as' => 'delete', 'uses' => 'PeriodoController@delete']);
             });
         });
+
+        Route::group(['prefix' => 'departamentos', 'as' => 'departamentos.'], function() {
+            Route::get('/', ['as' => 'index', 'uses' => 'DepartamentoAcademicoController@index']);
+            Route::get('/nuevo', ['as' => 'create', 'uses' => 'DepartamentoAcademicoController@create']);
+            Route::post('/nuevo', ['as' => 'store', 'uses' => 'DepartamentoAcademicoController@store']);
+
+            Route::group(['prefix' => '{departamento}'], function() {
+                Route::get('/editar', ['as' => 'edit', 'uses' => 'DepartamentoAcademicoController@edit']);
+                Route::post('/editar', ['as' => 'update', 'uses' => 'DepartamentoAcademicoController@update']);
+                Route::post('/eliminar', ['as' => 'delete', 'uses' => 'DepartamentoAcademicoController@delete']);
+            });
+        });
     });
 });
 

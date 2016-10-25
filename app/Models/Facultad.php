@@ -45,6 +45,11 @@ class Facultad extends Model
         return $this->hasMany(Periodo::class, 'facultad_id');
     }
 
+    public function departamentosAcademicos()
+    {
+        return $this->hasMany(departamentoAcademico::class, 'facultad_id');
+    }
+
     public function scopeTodas($query)
     {
         $institucion_id = request()->input('institucion');

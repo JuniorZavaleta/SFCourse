@@ -107,12 +107,22 @@
     .table > tbody > tr > td {
         vertical-align: middle;
     }
+    .column {
+        border-bottom: #0a0909 solid 1px;
+    }
+    .column:last-child {
+        border-bottom: 0px;
+        min-height: inherit;
+    }
     @media(min-width:768px) {
         .input-text {
             width: 60%;
         }
-        .column:first-child {
-            border-right: #fcf solid 2px;
+        .column {
+            min-height: 360px;
+        }
+        #column-center {
+            border-left: #0a0909 solid 1px;
         }
         .input-ref {
             margin-right: 10px;
@@ -126,8 +136,13 @@
         }
     }
     @media(min-width: 992px) {
-        .column {
-            border-right: #fcf solid 2px;
+        .column:last-child {
+            height: 360px;
+            border-bottom: #0a0909 solid 1px;
+            overflow-y: auto;
+        }
+        #column-center {
+            border-right: #0a0909 solid 1px;
         }
     }
     @media(min-width:1200px) {
@@ -188,7 +203,7 @@
 
             </div>
 
-            <div class="col-sm-6 col-md-3 column">
+            <div class="col-sm-6 col-md-3 column" id="column-center">
                 <div class="row">
                     <div class="text-center">
                         <h3>Semanas</h3>
@@ -224,28 +239,11 @@
                 </div>
             </div>
 
-            <div class="col-sm-12 col-md-6">
+            <div class="col-sm-12 col-md-6 column">
                 <div class="row">
                     <div class="text-center">
                         <h3><i>@{{ tema_title }}</i></h3>
                         <div id="temas">
-                            <div class="clickable tema"
-                                 id="tema_div_@{{ tema.id }}"
-                                 v-for="tema in temasSemanaSelected(semana_selected)"
-                            >
-                                <p id="tema_@{{ tema.id }}"
-                                   @click="add_binding(tema)" >
-                                    <span>@{{ tema.name }}</span>
-                                    <a type="button"
-                                       class="btn btn-danger float-right"
-                                       v-show="tema_selected == tema"
-                                       title="Eliminar"
-                                       @click="delete_tema(tema)"
-                                    >
-                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                                    </a>
-                                </p>
-                            </div>
                             <input v-model="edit_tema"
                                    v-show="tema_selected.id"
                                    class="input-text"
@@ -276,6 +274,23 @@
                                @click="cancelar_actualizar()">
                                <span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
                             </a>
+                            <div class="clickable tema"
+                                 id="tema_div_@{{ tema.id }}"
+                                 v-for="tema in temasSemanaSelected(semana_selected)"
+                            >
+                                <p id="tema_@{{ tema.id }}"
+                                   @click="add_binding(tema)" >
+                                    <span>@{{ tema.name }}</span>
+                                    <a type="button"
+                                       class="btn btn-danger float-right"
+                                       v-show="tema_selected == tema"
+                                       title="Eliminar"
+                                       @click="delete_tema(tema)"
+                                    >
+                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                    </a>
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>

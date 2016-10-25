@@ -32,6 +32,9 @@
                 <a type="button" class="btn btn-warning btn-header" v-bind:href="url_eaps" v-show="facultad_selected" title="EAPs" transition="btn-header">
                   <span class="glyphicon glyphicon-education" aria-hidden="true"></span>
                 </a>
+                <a type="button" class="btn btn-primary btn-header" v-bind:href="url_periodos" v-show="facultad_selected" title="Periodo academico" transition="btn-header">
+                  <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                </a>
                 <form id="delete-facultad-form" v-bind:action="url_delete" method="POST" hidden>
                     {{ csrf_field() }}
                 </form>

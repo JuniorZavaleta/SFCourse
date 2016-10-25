@@ -10,6 +10,7 @@ var vm = new Vue(
         url_delete: '',
         base_url : '',
         url_eaps : '',
+        url_periodos : '',
     },
 
     methods: {
@@ -46,6 +47,7 @@ var vm = new Vue(
                 this.url_edit = this.base_url + '/editar'
                 this.url_delete = this.base_url + '/eliminar'
                 this.url_eaps = this.app_url + '/admin/eaps?facultad_id=' + newValue
+                this.url_periodos = this.base_url + '/periodos'
             }
         }
     },

@@ -36,6 +36,8 @@ class RouteServiceProvider extends ServiceProvider
         Route::model('ip_lista_blanca', \App\Models\Firewall::class);
         Route::model('incidente', \App\Models\Incidente::class);
         Route::model('ambiente', \App\Models\Ambiente::class);
+        Route::model('plan', \App\Models\PlanEstudio::class);
+        Route::model('periodo', \App\Models\Periodo::class);
     }
 
     /**

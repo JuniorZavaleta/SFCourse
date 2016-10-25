@@ -24,4 +24,9 @@ class AsignaturaAperturada extends Model
     {
         return $this->asignatura->nombre;
     }
+
+    public function periodo()
+    {
+        return $this->belongsTo(Periodo::class, 'periodo_id');
+    }
 }

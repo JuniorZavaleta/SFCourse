@@ -42,4 +42,32 @@ class DepartamentoAcademicoController extends Controller
              ->route('facultades.departamentos.index', ['facultad' => $facultad->id])
              ->with('message', 'Departamento academico creado satisfactoriamente.');
     }
+
+    public function edit($facultad, $departamento)
+    {
+        $data = [
+            'departamento' => $departamento,
+            'facultad'     => $facultad,
+        ];
+
+        return view('admin.departamento_academico.edit', $data);
+    }
+
+    public function update($facultad, $departamento, StoreRequest $request)
+    {
+        $departamento->update($request->all());
+
+        return redirect()
+             ->route('facultades.departamentos.index', ['facultad' => $facultad->id])
+             ->with('message', 'Departamento academico actualizado satisfactoriamente.');
+    }
+
+    public function delete($facultad, $departamento)
+    {
+        $departamento->delete();
+        return redirect()
+             ->route('facultades.departamentos.index', ['facultad' => $facultad->id])
+             ->with('message', 'Departamento academico eliminado satisfactoriamente.');
+    }
+
 }

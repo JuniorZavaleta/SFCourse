@@ -62,7 +62,7 @@ Route::group(['prefix' => 'facultades', 'as' => 'facultades.'], function() {
             Route::get('/nuevo', ['as' => 'create', 'uses' => 'DepartamentoAcademicoController@create']);
             Route::post('/nuevo', ['as' => 'store', 'uses' => 'DepartamentoAcademicoController@store']);
 
-            Route::group(['prefix' => '{departamento}'], function() {
+            Route::group(['prefix' => '{departamento_academico}'], function() {
                 Route::get('/editar', ['as' => 'edit', 'uses' => 'DepartamentoAcademicoController@edit']);
                 Route::post('/editar', ['as' => 'update', 'uses' => 'DepartamentoAcademicoController@update']);
                 Route::post('/eliminar', ['as' => 'delete', 'uses' => 'DepartamentoAcademicoController@delete']);

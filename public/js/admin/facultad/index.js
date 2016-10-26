@@ -11,6 +11,7 @@ var vm = new Vue(
         base_url : '',
         url_eaps : '',
         url_periodos : '',
+        url_departamentos : '',
     },
 
     methods: {
@@ -48,6 +49,7 @@ var vm = new Vue(
                 this.url_delete = this.base_url + '/eliminar'
                 this.url_eaps = this.app_url + '/admin/eaps?facultad_id=' + newValue
                 this.url_periodos = this.base_url + '/periodos'
+                this.url_departamentos = this.base_url + '/departamentos'
             }
         }
     },

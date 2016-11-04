@@ -14,7 +14,7 @@ class IncidenteController extends Controller
 {
     public function index()
     {
-        $incidentes = Incidente::recientes()->get();
+        $incidentes = Incidente::all();
         $paises = CountryCatcher::fetch();
 
         $data = [

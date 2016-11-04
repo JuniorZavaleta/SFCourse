@@ -78,7 +78,7 @@
                     </table>
                 </div>
             </div>
-            <div class="panel-footer text-center">{{$pais}}
+            <div class="panel-footer text-center">
                 @if (isset($pais_nombre) && !is_null($pais_nombre))
                 <form action="{{ route('incidentes.reportes.byCountry', ['pais' => $pais_nombre]) }}" method="POST">
                     {{ csrf_field() }}

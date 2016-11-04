@@ -53,6 +53,7 @@ class IncidenteController extends Controller
         $data = [
             'incidentes' => $incidentes,
             'paises' => $paises,
+            'pais_nombre' => $request->input('pais'),
         ];
 
         return view('admin.incidente.index', $data);

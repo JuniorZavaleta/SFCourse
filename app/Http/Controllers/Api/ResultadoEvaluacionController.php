@@ -21,7 +21,10 @@ class ResultadoEvaluacionController extends Controller
             )
             ->join('evaluacion', 'evaluacion_x_matricula.evaluacion_id', '=', 'evaluacion.id')
             ->join('tipo_evaluacion', 'evaluacion.tipo_id', '=', 'tipo_evaluacion.id')
+            ->join('matricula', 'evaluacion_x_matricula.matricula_id', '=', 'matricula.id')
             ->delAlumno($user->id)
+            ->where('evaluacion.grupo_id', $grupo)
+            ->where('matricula.grupo_id', $grupo)
             ->get();
 
             return response()->json($evaluaciones);

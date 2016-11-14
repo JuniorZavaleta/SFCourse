@@ -41,4 +41,13 @@ class Grupo extends Model
         return $this->asignatura_aperturada->asignatura_nombre;
     }
 
+    public function scopeDelAlumno($query, $alumno_id)
+    {
+        $query->whereHas('matriculas', function($matricula) use ($alumno_id) {
+            $matricula->where('alumno_id', $alumno_id);
+        });
+
+        return $query;
+    }
+
 }

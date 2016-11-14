@@ -43,4 +43,10 @@ Route::group(['prefix' => 'escuelas', 'as' => 'escuelas.'], function() {
 
 Route::group(['prefix' => 'grupos', 'as' => 'grupos.'], function() {
     Route::get('/', ['as' => 'index', 'uses' => 'GrupoController@index']);
+
+    Route::group(['prefix' => '{grupo}'], function() {
+        Route::group(['prefix' => 'evaluaciones', 'as' => 'evaluaciones.'], function() {
+            Route::get('/', ['as' => 'index', 'uses' => 'ResultadoEvaluacionController@index']);
+        });
+    });
 });

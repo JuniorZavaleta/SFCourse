@@ -19,4 +19,9 @@ class DepartamentoAcademico extends Model
     {
         return $this->belongsTo(Facultad::class, 'facultad_id');
     }
+
+    public function docentes()
+    {
+        return $this->belongsToMany(Docente::class, 'docente_x_departamento', 'departamento_id', 'docente_id');
+    }
 }

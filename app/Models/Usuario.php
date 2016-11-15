@@ -77,4 +77,9 @@ class Usuario extends Authenticatable
     {
         return $this->tipo_usuario_id == 3;
     }
+
+    public function getEsAlumnoAttribute()
+    {
+        return $this->tipo_usuario_id == 2;
+    }
 }

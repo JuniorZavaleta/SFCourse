@@ -28,4 +28,9 @@ class Incidente extends Model
               ->orderBy('created_at', 'DESC');
     }
 
+    public function scopeDelPais($query)
+    {
+        $query->where('pais_nombre');
+    }
+
 }

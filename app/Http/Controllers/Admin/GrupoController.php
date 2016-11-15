@@ -15,8 +15,13 @@ class GrupoController extends Controller
 {
     public function index()
     {
-        $docente_id = Auth::user()->id;
-        $grupos = Grupo::where('docente_id', $docente_id)->get();
+        $user = Auth::user();
+
+        if ($user->docente) {
+            $grupos = Grupo::where('docente_id', $user->id)->get();
+        } elseif ($user->alumno) {
+            $grupos = Grupo::delAlumno($user->id)->get();
+        }
 
         $data = [
             'grupos' => $grupos,

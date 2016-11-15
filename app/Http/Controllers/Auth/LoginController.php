@@ -51,7 +51,7 @@ class LoginController extends Controller
     {
         if ($user->esAdmin) {
             return redirect()->route('instituciones.index');
-        } elseif ($user->esDocente) {
+        } elseif ($user->esDocente || $user->esAlumno) {
             return redirect()->route('grupos.index');
         }
     }

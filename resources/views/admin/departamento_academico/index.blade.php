@@ -19,6 +19,9 @@
                 <a type="button" class="btn btn-danger btn-header"  v-bind:href="url_delete" v-show="departamento_selected" title="Eliminar" @click="delete_departamento" transition="btn-header">
                   <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                 </a>
+                <a type="button" class="btn btn-warning btn-header"  v-bind:href="url_docentes" v-show="departamento_selected" title="Docentes" transition="btn-header">
+                  <span class="glyphicon glyphicon-user " aria-hidden="true"></span>
+                </a>
                 <form id="delete-departamento-form" v-bind:action="url_delete" method="POST" hidden>
                     {{ csrf_field() }}
                 </form>

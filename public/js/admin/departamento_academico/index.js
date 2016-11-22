@@ -8,6 +8,7 @@ var vm = new Vue(
         url_edit: '',
         base_url: '',
         url_delete: '',
+        url_docentes : '',
     },
 
     methods: {
@@ -43,6 +44,7 @@ var vm = new Vue(
             if (newValue > 0) {
                 this.url_edit = this.base_url + '/editar'
                 this.url_delete = this.base_url + '/eliminar'
+                this.url_docentes = this.base_url + '/docentes'
             }
         }
     },

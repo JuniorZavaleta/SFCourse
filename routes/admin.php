@@ -66,6 +66,10 @@ Route::group(['prefix' => 'facultades', 'as' => 'facultades.'], function() {
                 Route::get('/editar', ['as' => 'edit', 'uses' => 'DepartamentoAcademicoController@edit']);
                 Route::post('/editar', ['as' => 'update', 'uses' => 'DepartamentoAcademicoController@update']);
                 Route::post('/eliminar', ['as' => 'delete', 'uses' => 'DepartamentoAcademicoController@delete']);
+
+                Route::group(['prefix' => 'docentes', 'as' => 'docentes.'], function() {
+                    Route::get('/', ['as' => 'index', 'uses' => 'DocenteController@index']);
+                });
             });
         });
     });

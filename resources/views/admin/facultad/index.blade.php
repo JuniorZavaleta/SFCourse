@@ -38,6 +38,9 @@
                 <form id="delete-facultad-form" v-bind:action="url_delete" method="POST" hidden>
                     {{ csrf_field() }}
                 </form>
+                <a type="button" class="btn btn-warning btn-header" v-bind:href="url_departamentos" v-show="facultad_selected" title="Departamentos academicos" transition="btn-header">
+                  <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>
+                </a>
             </div>
             <div class="panel-body">
                 <div class="col-sm-12 col-md-10 col-md-offset-1">

@@ -11,27 +11,8 @@
             @if ($departamento_academico)
 
                 <h3>{{ $departamento_academico->nombre }} - Docentes</h3>
-                <a type="button" class="btn btn-success btn-header" title="Agregar Docente" href="#">
-                  <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
-                </a>
-
-            @else
-
-                <h3>Docentes</h3>
-                <a type="button" class="btn btn-success btn-header" title="Agregar Docente" href="#">
-                  <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
-                </a>
-
             @endif
-                <a type="button" class="btn btn-info btn-header" v-bind:href="url_edit" v-show="docente_selected" title="Editar" transition="btn-header" >
-                  <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-                </a>
-                <a type="button" class="btn btn-danger btn-header" v-bind:href="url_delete" v-show="docente_selected" title="Eliminar" @click="delete_docente" transition="btn-header">
-                  <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                </a>
-                <form id="delete-docente-form" v-bind:action="url_delete" method="POST" hidden>
-                    {{ csrf_field() }}
-                </form>
+
             </div>
             <div class="panel-body">
                 <div class="col-sm-12 col-md-10 col-md-offset-1">
@@ -57,5 +38,4 @@
 @endsection
 
 @push('scripts')
-    <script type="text/javascript" src="{{ asset('js/admin/docente/index.js') }}"></script>
 @endpush

@@ -53,16 +53,18 @@ class IncidenteController extends Controller
 
         $fecha_inicio = $request->input('fecha_inicio');
         if ($fecha_inicio) {
+            $fecha_inicio = Carbon::createFromFormat('Y-m-d', $fecha_inicio);
             $incidentes->where('created_at' , '>=', $fecha_inicio);
         } else {
-            $fecha_inicio = date('Y-m-d');
+            $fecha_inicio = Carbon::now();
         }
 
         $fecha_fin = $request->input('fecha_fin');
         if ($fecha_fin) {
+            $fecha_fin = Carbon::createFromFormat('Y-m-d', $fecha_fin);
             $incidentes->where('created_at' , '<=', $fecha_fin);
         } else {
-            $fecha_fin = date('Y-m-d');
+            $fecha_fin = Carbon::now();
         }
 
         $incidentes = $incidentes->get();

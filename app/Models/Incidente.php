@@ -28,6 +28,19 @@ class Incidente extends Model
               ->orderBy('created_at', 'DESC');
     }
 
+    public function scopeBetweenDates($query, $fecha_inicio, $fecha_fin)
+    {
+        if ($fecha_inicio != null) {
+            $query->where('created_at', '>=', $fecha_inicio);
+        }
+
+        if ($fecha_fin != null) {
+            $query->where('created_at', '<=', $fecha_inicio);
+        }
+
+        return $query;
+    }
+
     public function scopeDelPais($query)
     {
         $query->where('pais_nombre');

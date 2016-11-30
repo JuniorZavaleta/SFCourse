@@ -42,11 +42,11 @@
                     </div>
                     <div class="field-filter">
                         <label class="control-label">Fecha Inicio</label>
-                        <input type="date" name="fecha_inicio" class="form-control">
+                        <input type="date" name="fecha_inicio" class="form-control" value="{{ $fecha_inicio }}">
                     </div>
                     <div class="field-filter">
                         <label class="control-label">Fecha Fin</label>
-                        <input type="date" name="fecha_fin" class="form-control">
+                        <input type="date" name="fecha_fin" class="form-control" value="{{ $fecha_fin }}">
                     </div>
                     <div class="field-filter">
                         <button class="btn btn-default">Filtrar</button>
@@ -79,10 +79,17 @@
                 </div>
             </div>
             <div class="panel-footer text-center">
-                @if (isset($pais_nombre) && !is_null($pais_nombre))
+                @if (isset($pais_nombre) && $pais_nombre)
                 <form action="{{ route('incidentes.reportes.byCountry', ['pais' => $pais_nombre]) }}" method="POST">
                     {{ csrf_field() }}
                     <button class="btn btn-primary">Descargar reporte por pais</button>
+                </form>
+                @endif
+
+                @if ( (isset($fecha_inicio) && $fecha_inicio) || (isset($fecha_fin) && $fecha_fin))
+                <form action="{{ route('incidentes.reportes.betweenDates', ['fecha_inicio' => $fecha_inicio]) }}" method="POST">
+                  {{ csrf_field() }}
+                  <button class="btn btn-primary">Descargar reporte por fechas</button>
                 </form>
                 @endif
             </div>

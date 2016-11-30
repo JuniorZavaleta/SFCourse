@@ -17,9 +17,14 @@ class IncidenteController extends Controller
         $incidentes = Incidente::all();
         $paises = CountryCatcher::fetch();
 
+        $fecha_inicio = date('Y-m-d');
+        $fecha_fin    = date('Y-m-d');
+
         $data = [
             'incidentes' => $incidentes,
             'paises' => $paises,
+            'fecha_inicio' => $fecha_inicio,
+            'fecha_fin' => $fecha_fin,
         ];
 
         return view('admin.incidente.index', $data);
@@ -36,17 +41,26 @@ class IncidenteController extends Controller
 
     public function filter(Request $request)
     {
-        $incidentes = Incidente::whereNotNull('pais_nombre');
+        $incidentes = new Incidente;
         $paises = CountryCatcher::fetch();
 
-        if ($request->has('pais'))
+        if ($request->has('pais')) {
             $incidentes->where('pais_nombre', $request->input('pais'));
+        }
 
-        if ($request->has('fecha_inicio'))
-            $incidentes->where('created_at' , '>=', $request->input('fecha_inicio'));
+        $fecha_inicio = $request->input('fecha_inicio');
+        if ($fecha_inicio) {
+            $incidentes->where('created_at' , '>=', $fecha_inicio);
+        } else {
+            $fecha_inicio = date('Y-m-d');
+        }
 
-        if ($request->has('fecha_fin'))
-            $incidentes->where('created_at' , '<=', $request->input('fecha_fin'));
+        $fecha_fin = $request->input('fecha_fin');
+        if ($fecha_fin) {
+            $incidentes->where('created_at' , '<=', $fecha_fin);
+        } else {
+            $fecha_fin = date('Y-m-d');
+        }
 
         $incidentes = $incidentes->get();
 
@@ -54,6 +68,8 @@ class IncidenteController extends Controller
             'incidentes' => $incidentes,
             'paises' => $paises,
             'pais_nombre' => $request->input('pais'),
+            'fecha_inicio' => $fecha_inicio,
+            'fecha_fin' => $fecha_fin,
         ];
 
         return view('admin.incidente.index', $data);

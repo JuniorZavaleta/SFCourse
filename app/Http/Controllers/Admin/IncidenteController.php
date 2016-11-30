@@ -10,15 +10,18 @@ use App\Models\Incidente;
 
 use App\Services\CountryCatcher;
 
+use Carbon\Carbon;
+
 class IncidenteController extends Controller
 {
     public function index()
     {
-        $incidentes = Incidente::all();
         $paises = CountryCatcher::fetch();
 
-        $fecha_inicio = date('Y-m-d');
-        $fecha_fin    = date('Y-m-d');
+        $fecha_inicio = Carbon::now()->subMonths(2);
+        $fecha_fin    = Carbon::now();
+
+        $incidentes = Incidente::betweenDates($fecha_inicio, $fecha_fin)->get();
 
         $data = [
             'incidentes' => $incidentes,

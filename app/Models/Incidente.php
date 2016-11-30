@@ -35,7 +35,7 @@ class Incidente extends Model
         }
 
         if ($fecha_fin != null) {
-            $query->where('created_at', '<=', $fecha_inicio);
+            $query->where('created_at', '<=', $fecha_fin);
         }
 
         return $query;

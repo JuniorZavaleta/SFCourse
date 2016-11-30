@@ -42,11 +42,11 @@
                     </div>
                     <div class="field-filter">
                         <label class="control-label">Fecha Inicio</label>
-                        <input type="date" name="fecha_inicio" class="form-control" value="{{ $fecha_inicio }}">
+                        <input type="date" name="fecha_inicio" class="form-control" value="{{ $fecha_inicio->format('Y-m-d') }}">
                     </div>
                     <div class="field-filter">
                         <label class="control-label">Fecha Fin</label>
-                        <input type="date" name="fecha_fin" class="form-control" value="{{ $fecha_fin }}">
+                        <input type="date" name="fecha_fin" class="form-control" value="{{ $fecha_fin->format('Y-m-d') }}">
                     </div>
                     <div class="field-filter">
                         <button class="btn btn-default">Filtrar</button>

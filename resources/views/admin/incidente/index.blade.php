@@ -87,7 +87,7 @@
                 @endif
 
                 @if ( (isset($fecha_inicio) && $fecha_inicio) || (isset($fecha_fin) && $fecha_fin))
-                <form action="{{ route('incidentes.reportes.betweenDates', ['fecha_inicio' => $fecha_inicio->format('Y-md-d'), 'fecha_fin' => $fecha_fin->format('Y-m-d')]) }}" method="POST">
+                <form action="{{ route('incidentes.reportes.betweenDates', ['fecha_inicio' => $fecha_inicio->format('Y-m-d'), 'fecha_fin' => $fecha_fin->format('Y-m-d')]) }}" method="POST">
                   {{ csrf_field() }}
                   <button class="btn btn-primary">Descargar reporte por fechas</button>
                 </form>

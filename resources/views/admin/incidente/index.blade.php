@@ -35,8 +35,11 @@
                     <div class="field-filter">
                         <label class="control-label">Pais</label>
                         <select name="pais" class="form-control">
+                            <option value="">Seleccione el pais</option>
                         @foreach($paises as $pais)
+                            @if($pais)
                             <option value="{{ $pais }}">{{ $pais }}</option>
+                            @endif
                         @endforeach
                         </select>
                     </div>

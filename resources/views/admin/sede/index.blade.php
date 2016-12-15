@@ -60,6 +60,9 @@
                     </table>
                 </div>
             </div>
+            <div class="paginator-container text-center">
+                {{ $sedes->links() }}
+            </div>
         </div>
     </div>
 

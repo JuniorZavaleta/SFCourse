@@ -66,10 +66,6 @@ Route::group(['prefix' => 'facultades', 'as' => 'facultades.'], function() {
                 Route::get('/editar', ['as' => 'edit', 'uses' => 'DepartamentoAcademicoController@edit']);
                 Route::post('/editar', ['as' => 'update', 'uses' => 'DepartamentoAcademicoController@update']);
                 Route::post('/eliminar', ['as' => 'delete', 'uses' => 'DepartamentoAcademicoController@delete']);
-
-                Route::group(['prefix' => 'docentes', 'as' => 'docentes.'], function() {
-                    Route::get('/', ['as' => 'index', 'uses' => 'DocenteController@index']);
-                });
             });
         });
     });
@@ -149,5 +145,12 @@ Route::group(['prefix' => 'ambientes', 'as' => 'ambientes.'], function() {
         Route::get('/editar', ['as' => 'edit', 'uses' => 'AmbienteController@edit']);
         Route::post('/editar', ['as' => 'update', 'uses' => 'AmbienteController@update']);
         Route::post('/eliminar', ['as' => 'delete', 'uses' => 'AmbienteController@delete']);
+    });
+});
+
+Route::group(['prefix' => 'docentes', 'as' => 'docentes.'], function() {
+    Route::get('/', ['as' => 'index', 'uses' => 'DocenteController@index']);
+    Route::group(['prefix' => '{docente}'], function() {
+        Route::post('/retirar', ['as' => 'removeFromDepartment', 'uses' => 'DocenteController@removeFromDepartment']);
     });
 });

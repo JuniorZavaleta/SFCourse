@@ -44,7 +44,7 @@ var vm = new Vue(
             if (newValue > 0) {
                 this.url_edit = this.base_url + '/editar'
                 this.url_delete = this.base_url + '/eliminar'
-                this.url_docentes = this.base_url + '/docentes'
+                this.url_docentes = this.app_url + '/admin/docentes?departamento_id=' + newValue
             }
         }
     },

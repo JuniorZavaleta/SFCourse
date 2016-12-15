@@ -6,6 +6,6 @@ class DistritoController extends Controller
 {
     public function getByProvincia($provincia)
     {
-        return $provincia->distritos;
+        return collect($provincia->distritos->toArray())->sortBy('nombre')->values()->all();
     }
 }

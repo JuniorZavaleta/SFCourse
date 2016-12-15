@@ -11,6 +11,7 @@ use App\Http\Requests\Admin\Evaluacion\StoreRequest;
 
 use App\Models\Evaluacion;
 use App\Models\TipoEvaluacion;
+use Auth;
 
 class EvaluacionController extends Controller
 {
@@ -18,11 +19,13 @@ class EvaluacionController extends Controller
     {
         $asignatura = $grupo->asignatura_aperturada->asignatura;
         $evaluaciones = $grupo->evaluaciones()->paginate(10);
+        $usuario = Auth::user();
 
         $data = [
             'asignatura' => $asignatura,
             'evaluaciones' => $evaluaciones,
             'grupo' => $grupo,
+            'usuario' => $usuario,
         ];
 
         return view('admin.evaluacion.index', $data);

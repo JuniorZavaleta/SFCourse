@@ -9,6 +9,7 @@
                 <div class="panel-heading text-center">
 
                     <h3>{{ $asignatura->nombre }} - Evaluaciones</h3>
+                     @if($usuario->es_docente)
                     <a type="button" class="btn btn-success btn-header" title="Agregar Evaluacion" href="{{ route('grupos.evaluaciones.create', ['grupo' => $grupo->id]) }}">
                       <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
                     </a>
@@ -19,6 +20,7 @@
                     <a type="button" class="btn btn-danger btn-header"  v-bind:href="url_delete" v-show="evaluacion_selected" title="Eliminar" @click="delete_evaluacion" transition="btn-header">
                       <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                     </a>
+                    @endif
                     <a type="button" class="btn btn-info btn-header"  v-bind:href="url_scores" v-show="evaluacion_selected" title="Resultados" transition="btn-header">
                       <i class="fa fa-bar-chart" aria-hidden="true"></i>
                     </a>

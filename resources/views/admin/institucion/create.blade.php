@@ -6,8 +6,8 @@
 
     <div class="row" id="app">
         <div class="panel panel-info">
-            <div class="panel-heading">
-                <h3 class="text-center">Registrar Institucion</h3>
+            <div class="panel-heading text-center">
+                <h3>Registrar Institucion</h3>
             </div>
             <form class="form form-horizontal" method="POST">
             {{ csrf_field() }}
@@ -27,7 +27,7 @@
                     </div>
                 </div>
             </div>
-            <div class="panel-footer">
+            <div class="panel-footer text-center">
                 <button class="btn btn-primary">Agregar</button>
             </div>
 

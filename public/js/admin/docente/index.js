@@ -7,13 +7,13 @@ var vm = new Vue(
         default_url: '',
         url_edit: '',
         base_url: '',
-        url_delete: '',
+        url_remove: '',
     },
 
     methods: {
         select_row: function(id)
         {
-            var last_tr = document.getElementById('docente' + this.docente_selected)
+            var last_tr = document.getElementById('docente_' + this.docente_selected)
             var tr_selected = document.getElementById('docente_' + id)
 
             if (this.docente_selected == 0) {
@@ -29,20 +29,19 @@ var vm = new Vue(
 
             this.docente_selected = (this.docente_selected == id) ? 0 : id
         },
-        delete_docente: function()
+        remove_docente: function()
         {
             event.preventDefault()
-            document.getElementById('delete-docente-form').submit()
+            document.getElementById('remove-docente-form').submit()
         }
     },
 
     watch: {
         docente_selected: function(newValue)
         {
-            this.base_url = this.app_url + '/admin/departamentos/' + this.departamento_selected +'/docentes/' + newValue;
+            this.base_url = this.app_url + '/admin/docentes/' + newValue;
             if (newValue > 0) {
-                this.url_edit = this.base_url + '/editar'
-                this.url_delete = this.base_url + '/eliminar'
+                this.url_remove = this.base_url + '/retirar?departamento_id=' + this.departamento_selected
             }
         }
     },
@@ -50,6 +49,6 @@ var vm = new Vue(
     ready: function()
     {
         this.app_url = window.app_url
-        this.departamento_selected = document.getElementById('departamento_id').value;
+        this.departamento_selected = document.getElementById('departamento_academico_id').value;
     }
 });

@@ -6,11 +6,11 @@
 
     <div class="row" id="app">
         <div class="panel panel-info">
-            <div class="panel-heading">
+            <div class="panel-heading text-center">
             @if ($institucion)
-                <h3 class="text-center">{{ $institucion->siglas }} - Registrar Sede</h3>
+                <h3>{{ $institucion->siglas }} - Registrar Sede</h3>
             @else
-                <h3 class="text-center">Registrar Sede</h3>
+                <h3>Registrar Sede</h3>
             @endif
             </div>
             <form class="form form-horizontal" method="POST">
@@ -81,7 +81,7 @@
             </div>
 
 
-            <div class="panel-footer">
+            <div class="panel-footer text-center">
                 <button class="btn btn-primary">Agregar</button>
             </div>
 

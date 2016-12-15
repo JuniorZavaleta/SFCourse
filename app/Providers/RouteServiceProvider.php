@@ -39,6 +39,7 @@ class RouteServiceProvider extends ServiceProvider
         Route::model('plan', \App\Models\PlanEstudio::class);
         Route::model('periodo', \App\Models\Periodo::class);
         Route::model('departamento_academico', \App\Models\DepartamentoAcademico::class);
+        Route::model('docente', \App\Models\Docente::class);
     }
 
     /**
